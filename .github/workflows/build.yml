@@ -11,7 +11,7 @@ jobs:
       standalones: ${{ steps.load_step.outputs.standalones }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  # 推荐：升级到 v4
 
       - id: load_step
         name: Load Config
@@ -31,12 +31,11 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  # 推荐：升级到 v4
 
       - name: Install dependencies
         run: |
           # Install dependencies
-          # use `apt-get` rather than `apt` there. The former is for scripts and the latter is for terminal
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends git ca-certificates build-essential \
             pkg-config libreadline-dev gcc-arm-none-eabi libnewlib-dev libbz2-dev libssl-dev
@@ -53,8 +52,11 @@ jobs:
           python checksum.py
 
       - name: Upload firmware
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4  # 必须：升级到 v4 以修复报错
         with:
+          # v4 版本默认不允许覆盖同名 artifact。
+          # 由于你的 name 包含了 matrix 变量，且 matrix 组合是唯一的，
+          # 所以这里不会冲突，可以直接运行。
           name: firmware_${{ matrix.ref }}_${{ matrix.standalone }}
           path: |
             artifacts/**/*.elf
@@ -62,4 +64,3 @@ jobs:
             artifacts/**/*.bin
             artifacts/**/*.txt
             artifacts/**/Makefile.platform
-
