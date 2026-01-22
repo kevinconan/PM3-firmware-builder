@@ -5,6 +5,6 @@
     "PLATFORM": "PM3GENERIC",
     "PLATFORM_EXTRAS": "",
     "PLATFORM_SIZE": "256",
-    "extraOptions": ["SKIP_HITAG", "SKIP_FELICA"],
+    "extraOptions": ["SKIP_HITAG", "SKIP_FELICA","SKIP_ICLASS=1"],
     "buildS19": true
 }
